@@ -20,7 +20,7 @@
         <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Ara" aria-label="Search">
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#">Çıkış</a>
+                <a class="nav-link px-3" href="/Logout">Çıkış</a>
             </div>
         </div>
     </header>
@@ -36,13 +36,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link active" aria-current="page" asp-action="Index" asp-controller="Categories" asp-area="Admin">
                                    <i class="bi bi-bar-chart-steps"></i>
                                 Kategoriler
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                           <a class="nav-link active" aria-current="page" asp-action="Index" asp-controller="Products" asp-area="Admin">
                             <i class="bi bi-cart"></i>
                                 Ürünler
                             </a>
@@ -60,7 +60,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                             <a class="nav-link" asp-action="Index" asp-controller="Sliders" asp-area="Admin">
                                 <i class="bi bi-collection"></i>
                                 Slider
                             </a>

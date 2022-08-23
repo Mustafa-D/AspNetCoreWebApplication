@@ -1,12 +1,14 @@
 ﻿using AspNetCoreWebApplication.Data;
 using AspNetCoreWebApplication.Entities;
+using AspNetCoreWebApplication.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApplication.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class BrandsController : Controller
     {
        
@@ -36,12 +38,13 @@ namespace AspNetCoreWebApplication.Areas.Admin.Controllers
         // POST: BrandsController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Brand brand)
+        public async Task<ActionResult> CreateAsync(Brand brand,IFormFile logo)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    brand.Logo= await  FileHelper.FileLoaderAsync(logo);
                     _contex.Entry(brand).State = EntityState.Added;
                     //_contex.Brands.Add(brand);
                    await _contex.SaveChangesAsync();
@@ -57,45 +60,68 @@ namespace AspNetCoreWebApplication.Areas.Admin.Controllers
         }
 
         // GET: BrandsController1/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(int id)
         {
-            return View();
+            var marka= await _contex.Brands.FindAsync(id);
+            if (marka == null) return NotFound();
+            return View(marka);
         }
 
         // POST: BrandsController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> EditAsync(int id, Brand brand,IFormFile? logo,bool resmiSil)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(IndexAsync));
+
+
+                try
+                {
+                    if (resmiSil)
+                    {
+                        FileHelper.FileRemover(brand.Logo);
+                        brand.Logo = string.Empty;
+                    }
+                    if (logo != null) brand.Logo = await FileHelper.FileLoaderAsync(logo);
+                    //_contex.Entry(brand).State = EntityState.Modified;
+                     _contex.Brands.Update(brand);
+                    await _contex.SaveChangesAsync();                  
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                   ModelState.AddModelError("", "Hata oluşutur");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(brand);
+            
         }
 
         // GET: BrandsController1/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View();
+            
+            return View(await _contex.Brands.FindAsync(id));
         }
 
         // POST: BrandsController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteAsync(Brand brand)
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                 _contex.Brands.Remove(brand);
+                await _contex.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu");
             }
+            return View(brand);
         }
     }
 }

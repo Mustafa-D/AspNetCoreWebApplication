@@ -1,15 +1,16 @@
 using AspNetCoreWebApplication.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlServer());
-builder.Services.AddAuthentication().AddCookie(o =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o =>
 {
-    o.LoginPath = "Admin/Login";
+    o.LoginPath = "/Login";
     o.Cookie.Name = "AdminLogin";
 });
 

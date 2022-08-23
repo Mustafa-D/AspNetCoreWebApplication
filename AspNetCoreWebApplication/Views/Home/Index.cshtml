@@ -1,8 +1,44 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomePageViewModel
+@{
+    ViewData["Title"] = "Ana Sayfa";
 }
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <
+        @foreach (var item in Model.Sliders)
+        {
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <div class="carousel-item @(item==Model.Sliders.FirstOrDefault()?"active":"")">
+            <img src="/Img/@item.Image" class="d-block w-100" alt="@item.Image">
+        </div>
+        }
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<h2 class="text-center ">
+    <a href="/Products" class="link-secondary"> Ürünlerimiz</a>
+   
+</h2>
+<div class="row text-center">
+
+    @foreach (var item in Model.Products)
+    {
+        <div class="col-lg-4">
+            
+            <img src="/Img/@item.Image" alt="" class="bd-placeholder-img rounded-circle" width="140" height="140" />
+            <h2 class="fw-normal">@item.Name</h2>
+            <p>@item.Description</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+        </div>
+
+        <!-- /.col-lg-4 -->
+    }
 </div>

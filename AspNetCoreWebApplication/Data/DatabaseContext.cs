@@ -30,7 +30,10 @@ namespace AspNetCoreWebApplication.Data
                     IsActive=true,
                     IsAdmin=true,
                     UserName="Admin",
-                    Password="123"
+                    Password="123",
+                    Email="admin@admin.com",
+                    Name="Admin",
+                    Surname="User"
 
                 }
                 );

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-center ">Ürünlerimiz</h2>
+<div class="row text-center">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4">
+            
+            <img src="/Img/@item.Image" alt="" class="bd-placeholder-img rounded-circle" width="140" height="140" />
+            <h2 class="fw-normal">@item.Name</h2>
+            <p>@item.Description</p>
+            <p><a class="btn btn-secondary" asp-action="Detail" asp-controller="Products" asp-route-id="@item.Id">Detayları Görüntüle</a></p>
+        </div>
+
+        <!-- /.col-lg-4 -->
+    }
+</div>

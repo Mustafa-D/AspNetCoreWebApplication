@@ -1,12 +1,13 @@
 ﻿using AspNetCoreWebApplication.Data;
 using AspNetCoreWebApplication.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApplication.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"),Authorize]
     public class AppUsersController : Controller
     {
         private readonly DatabaseContext _databaseContext;
